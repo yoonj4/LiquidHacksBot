@@ -2,12 +2,12 @@
 git clone <repo>
 
 # Update local instance with current code
-git pull
+git pull origin HEAD
 
 # For adding your changes
 git add <files>
 git commit -m "<commit message>"
-git push
+git push origin HEAD
 
 # Create a new branch
 git checkout -b <branch name>
