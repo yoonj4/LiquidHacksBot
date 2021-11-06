@@ -1,0 +1,19 @@
+# Initial step to install repo
+git clone <repo>
+
+# Update local instance with current code
+git pull
+
+# For adding your changes
+git add <files>
+git commit -m "<commit message>"
+git push
+
+# Create a new branch
+git checkout -b <branch name>
+
+# Move to a difference branch
+git checkout <branch name>
+
+# Delete a branch
+git branch -D <branch name>
