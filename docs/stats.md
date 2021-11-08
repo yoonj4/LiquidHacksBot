@@ -4,18 +4,28 @@ Player fields:
 	Stamina: 0-100
 	Fatigued: True / False 
 	Luck: Default 0 (range from -10 to +10)
+	Character Proficiency: (implemented as array of the # of characters in SSBU)
 	
 Combat Formula:
-Compute Smash Level
-Smash Level = Player level * Stamina %
-SL 50 vs SL 25
-Odds = 80/20
-SL 4 vs SL 2
-55/45
-SL 90 vs SL 50
-90/10
-SL 99 vs SL 90
-55/45
+	Compute Smash Level
+	Smash Level = Player level * Stamina% * Character Proficiency
+	SL 50 vs SL 25
+	Odds = 80/20
+	SL 4 vs SL 2
+	55/45
+	SL 90 vs SL 50
+	90/10
+	SL 99 vs SL 90
+	55/45
+	
+	Character Proficiency Formula
+	
+	Stamina% Formula
+	100% = 1
+	0% = .5
+	Linear from 0% to 100%
+	**Stamina% = .5 + .5(Stamina / 100)**
+
 
 Combat
 	Calculate odds based on each player’s Smash Level. Random number generator determines winner
