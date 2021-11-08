@@ -63,14 +63,6 @@ Combat Formula
 		Using Liquipedia DB, find win rate and apply directly into Smash Level formula
 		Example: if pikachu vs DK is 54 / 46, Pikachu player Smash level * .54, DK player Smash Level * .46
 
-Luck
-
-	Luck gives a flat value to 
-	Calculate odds based on each player’s Smash Level. Random number generator determines winner
-	
-	Equal level players - 50/50 odds
-	Player 1 has +10 luck - 60/40 odds
-
 Stamina
 
 	If stamina === 0 , Fatigued === True
@@ -94,7 +86,7 @@ Passive Regeneration
 Event Commands
 
 	/train 
-		- play a CPU match
+		- [fighter] play a CPU match
 			Connects you with a fighter that has a fixed smash level
 				default: random fighter is picked
 				if provided a fighter, you will fight that fighter
@@ -102,13 +94,17 @@ Event Commands
 			lose: decrease 10 stamina, gain 10 exp
 			gain fighter proficiency
 			gain matchup knowledge but only up to 5 for a character
+			
+		- [fighter] [oppofighter]
+			example: /train pikachu donkeykong
+		
 		(optional) - practicing combos (not a core feature)
 			gain fighter proficiency
 			gain exp
 			(optional) - chance to make a breakthrough fighter tech?, granted exp and character proficiency
 				discovering fighter tech adds +1 to win rate
 	
-	/onlineMatch play an online match
+	/onlineMatch : play an online match
 		Connects you with players with similar player level
 			player is generated and their stats (figther proficiency, matchup knowledge - generate random multiplier)
 			fighter you encouter
@@ -117,13 +113,14 @@ Event Commands
 		gain character proficiency
 		gain matchup knowledge
 	
-	/Tournament 
+	/Tournament
 		- local : play a local match
 			randomly generate number of players and their stats (5-10 players?)
 		- major : participate in a major tournament. Only available when a Major Tournament in real life is On Going
 		
 	(Optional) /challenge [player name]
 		- challenge any player within the server
+		- No exp / rewards are given. Only for bragging rights
 		
 	/scout [player name]
 		- see player level of player
@@ -138,15 +135,11 @@ Generating random players
 		Calculate Player's Smash Level
 		Set Opponent's Smash Level x0.90 to x1.1 of Player
 		
-		
-		
 	tournaments
 		- local (Best of 3)
 			Opponent's Smash Level = current player's level * (value between .225 - .7875). Average value would be 0.625
 		- major (Best of 5)
-			
-	
 
 Future Features
 
-	Current Real-life winner of each major tournament becomes ultra boss ( + 20 luck)
+	Current Real-life winner of each major tournament becomes ultra boss (+20 win rate)
