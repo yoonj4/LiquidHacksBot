@@ -142,6 +142,10 @@ Event Commands
 	(Optional) /challenge [player name]
 		- challenge any player within the server
 		
+	/scout [player name]
+		- see player level of player
+		- see high score
+		
 Generating random players
 	
 	cpu
