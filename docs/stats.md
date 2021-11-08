@@ -14,7 +14,7 @@ Combat Formula
 	Smash Level (SL) = PlayerLevel + (Stamina% * FighterProficiency% * OpponentKnowledge * FighterMatchup)
 	
 	Compute Win Odds
-	Victory% = 50 + delta_SL
+	Victory% = 50 + delta_SL + buffs + temp_buffs
 	
 	SL 50 vs SL 25
 	Odds = 75/25
