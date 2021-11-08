@@ -11,6 +11,8 @@ Combat Formula
 
 	Compute Smash Level
 	Smash Level = PlayerLevel * (Stamina% * FighterProficiency% * OpponentKnowledge * FighterMatchup)
+	
+	Compute Win Odds
 	SL 50 vs SL 25
 	Odds = 80/20
 	SL 4 vs SL 2
@@ -64,8 +66,7 @@ Luck
 	Calculate odds based on each player’s Smash Level. Random number generator determines winner
 	
 	Equal level players - 50/50 odds
-	Stronger level - 75/25 odds
-	Stronger but weaker player has extra +10 luck - 65/35
+	Player 1 has +10 luck - 60/40 odds
 
 Stamina
 
@@ -126,9 +127,19 @@ Generating random players
 	cpu
 	
 	online match
-		player level: +/- 10 of current player level
-		stamina + fighter proficiency + opponent knowledge + fighter matchup: .087875 - .225
+		Randomly choose Opponent's character
+		Calculate Player's Smash Level
+		Set Opponent's Smash Level x0.90 to x1.1 of Player
+		
+		
 		
 	tournaments
+		- local (Best of 3)
+			Opponent's Smash Level = current player's level * (value between .225 - .7875). Average value would be 0.625
+		- major (Best of 5)
+			
 	
-	
+
+Future Features
+
+	Current Real-life winner of each major tournament becomes ultra boss ( + 20 luck)
