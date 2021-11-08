@@ -29,7 +29,7 @@ Combat Formula
 		100% = 1
 		0% = .5
 		Linear from x0.5 to x1.0
-		**Stamina% = .5 + .5(Stamina / 100)**
+		Stamina% = .5 + .5(Stamina / 100)
 		
 	FighterProficiency%
 		Increased by using fighter in Training or Match
