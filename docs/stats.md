@@ -3,7 +3,6 @@ Player fields
 	Name: 
 	Level: Default 1 (max level 99)
 	Stamina: 0-100
-	Fatigued: True / False 
 	Luck: Default 0 (range from -10 to +10)
 	Fighter List: (implemented as List of the # of characters in SSBU). Each element of Map contains key: string Fighter, value: Map String OpponentKnowledge and Int Count
 	OpponentKnowledge: (implemented as sub array of Fighter Proficiency)
