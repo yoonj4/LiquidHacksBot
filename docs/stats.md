@@ -1,4 +1,4 @@
-Player fields: 
+Player fields
 	Name: 
 	Level: Default 1 (max level 99)
 	Stamina: 0-100
@@ -6,7 +6,7 @@ Player fields:
 	Luck: Default 0 (range from -10 to +10)
 	Character Proficiency: (implemented as array of the # of characters in SSBU)
 	
-Combat Formula:
+Combat Formula
 	Compute Smash Level
 	Smash Level = Player level * Stamina% * Character Proficiency
 	SL 50 vs SL 25
