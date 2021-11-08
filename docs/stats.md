@@ -1,4 +1,5 @@
 Player fields
+
 	Name: 
 	Level: Default 1 (max level 99)
 	Stamina: 0-100
@@ -8,6 +9,7 @@ Player fields
 	OpponentKnowledge: (implemented as sub array of Fighter Proficiency)
 	
 Combat Formula
+
 	Compute Smash Level
 	Smash Level = PlayerLevel * Stamina% * FighterProficiency% * OpponentKnowledge * FighterMatchup
 	SL 50 vs SL 25
@@ -58,6 +60,7 @@ Combat Formula
 		Example: if pikachu vs DK is 54 / 46, Pikachu player Smash level * .54, DK player Smash Level * .46
 
 Luck
+
 	Luck gives a flat value to 
 	Calculate odds based on each player’s Smash Level. Random number generator determines winner
 	
@@ -66,6 +69,7 @@ Luck
 	Stronger but weaker player has extra +10 luck - 65/35
 
 Stamina
+
 	If stamina === 0 , Fatigued === True
 	If fatigued, wait until stamina = 100
 	If win, decrease 10 stamina
@@ -74,19 +78,35 @@ Stamina
 Recover Stamina 
 
 Passive Regeneration
+
 	/rest
 		If (stamina < 100 && datetime.now() > (cooldownTimestamp + 60 minutes))
 			cooldownTimestamp = datetime.now();
 		Disable fighting until certain time elapses
+		-
 
 	/eat
 		recoverstamina(food);
 	
 Event Commands
-	/train play a CPU match
+
+	/train 
+		- play a CPU match
+			win: decrease 5 stamina, gain exp
+			lose: decrease 10 stamina, gain exp
+		- practicing combos
+			gain fighter proficiency
+			chance to make a breakthrough fighter tech?, granted exp and character proficiency
+			(optional) - discovering fighter tech adds +1 to win rate
 	
 	/onlineMatch play an online match
+		win: decrease 0 stamina, gain exp
+		lose: decrease 15 stamina, gain exp
+		gain character proficiency
+		gain matchup knowledge
 	
 	/Tournament 
 		- local : play a local match
+			randomly generate number of players and their stats (5-10 players?)
+			expend
 		- major : participate in a major tournament. Only available when a Major Tournament in real life is On Going
