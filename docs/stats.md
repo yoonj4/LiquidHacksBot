@@ -57,8 +57,10 @@ Combat Formula
 		Using Liquipedia DB, find win rate and apply directly into Smash Level formula
 		Example: if pikachu vs DK is 54 / 46, Pikachu player Smash level * .54, DK player Smash Level * .46
 
-Combat
+Luck
+	Luck gives a flat value to 
 	Calculate odds based on each player’s Smash Level. Random number generator determines winner
+	
 	Equal level players - 50/50 odds
 	Stronger level - 75/25 odds
 	Stronger but weaker player has extra +10 luck - 65/35
@@ -67,13 +69,24 @@ Stamina
 	If stamina === 0 , Fatigued === True
 	If fatigued, wait until stamina = 100
 	If win, decrease 10 stamina
-	If lose, decrease 20 stamina 
+	If lose, decrease 20 stamina
 
 Recover Stamina 
 
-/rest
-	// determine amount of stamina recovered
-	If (stamina < 100 && datetime.now() > (cooldownTimestamp + 60 minutes))
+Passive Regeneration
+	/rest
+		If (stamina < 100 && datetime.now() > (cooldownTimestamp + 60 minutes))
+			cooldownTimestamp = datetime.now();
+		Disable fighting until certain time elapses
+
+	/eat
 		recoverstamina(food);
-		cooldownTimestamp = datetime.now();
-	Disable fighting until certain time elapses
+	
+Event Commands
+	/train play a CPU match
+	
+	/onlineMatch play an online match
+	
+	/Tournament 
+		- local : play a local match
+		- major : participate in a major tournament. Only available when a Major Tournament in real life is On Going
