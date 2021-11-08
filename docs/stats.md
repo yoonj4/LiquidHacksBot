@@ -4,11 +4,12 @@ Player fields
 	Stamina: 0-100
 	Fatigued: True / False 
 	Luck: Default 0 (range from -10 to +10)
-	Fighter Proficiency: (implemented as array of the # of characters in SSBU)
+	Fighter List: (implemented as List of the # of characters in SSBU). Each element of Map contains key: string Fighter, value: Map String OpponentKnowledge and Int Count
+	OpponentKnowledge: (implemented as sub array of Fighter Proficiency)
 	
 Combat Formula
 	Compute Smash Level
-	Smash Level = (PlayerLevel * Stamina% * FighterProficiency%) * OpponentKnowledge * FighterMatchup
+	Smash Level = PlayerLevel * Stamina% * FighterProficiency% * OpponentKnowledge * FighterMatchup
 	SL 50 vs SL 25
 	Odds = 80/20
 	SL 4 vs SL 2
@@ -21,7 +22,7 @@ Combat Formula
 	Stamina%
 		100% = 1
 		0% = .5
-		Linear from 50% to 100%
+		Linear from x0.5 to x1.0
 		**Stamina% = .5 + .5(Stamina / 100)**
 		
 	FighterProficiency%
@@ -32,10 +33,12 @@ Combat Formula
 		@ lv 99 = x1.5
 		FighterProficiency% = 1 + .5(fighterProficiency / 100)
 		
-		Training gives a range of 10 to 50 EXP
-		Match gives range of 500 - 1000 EXP, more exp when faced with similar opponent Smash Level
+		Training gives a range of 100 to 5000 EXP, EXP reward scales with Player Level
+		Match gives range of 5000 - 10000 EXP, more exp when faced with similar opponent Smash Level
 		
-
+		FighterProficiency LV 99 EXP = 1,000,000
+		PlayerLevel LV99 EXP = 5,000,000
+		
 	OpponentKnowledge
 		How well do you know the opponent fighter's strengths and weaknesses?
 		
@@ -50,6 +53,9 @@ Combat Formula
 			1. reddit https://www.reddit.com/r/smashbros/comments/p7a25f/ultimate_matchup_chart_compilation_v6/
 			2. Historical win rates via Liquipedia DB
 		If no data available, provide negative matchup against all characters since no data means this is a piss low tier fighter and thats why its crap
+		
+		Using Liquipedia DB, find win rate and apply directly into Smash Level formula
+		Example: if pikachu vs DK is 54 / 46, Pikachu player Smash level * .54, DK player Smash Level * .46
 
 Combat
 	Calculate odds based on each player’s Smash Level. Random number generator determines winner
