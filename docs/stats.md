@@ -11,36 +11,19 @@ Player fields
 Combat Formula
 
 	Compute Smash Level
-	Smash Level = PlayerLevel + (Stamina% * FighterProficiency% * OpponentKnowledge * FighterMatchup)
+	Smash Level (SL) = PlayerLevel + (Stamina% * FighterProficiency% * OpponentKnowledge * FighterMatchup)
 	
 	Compute Win Odds
+	Victory% = 50 + delta_SL
+	
 	SL 50 vs SL 25
-	Odds = 80/20
+	Odds = 75/25
 	SL 4 vs SL 2
-	55/45
+	52/48
 	SL 90 vs SL 50
 	90/10
 	SL 99 vs SL 90
-	55/45
-	
-	SL_1 = 50 
-	SL_2 = 25
-	SL_TOTAL = SL_1 + SL_2 = 75
-	
-	Odds_1 = 50 / 75 = 66.66%
-	Odds_2 = 25/75 = 33.33%
-	
-	90 vs 50
-	90/140 = 64%
-	
-	delta_SL = 0 , odds 50/50
-	delta_SL = 2, odds 52/48
-	delta_SL = 10, odds 55/45
-	abs(delta_SL) = 25, odds 80/20
-	delta_SL = 40, odds 90/10
-	
-	delta_SL = 30, 99/1
-	
+	59/41	
 	
 	Stamina%
 		100% = 1
