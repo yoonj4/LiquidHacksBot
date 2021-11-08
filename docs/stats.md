@@ -11,7 +11,7 @@ Player fields
 Combat Formula
 
 	Compute Smash Level
-	Smash Level = PlayerLevel * Stamina% * FighterProficiency% * OpponentKnowledge * FighterMatchup
+	Smash Level = PlayerLevel * (Stamina% * FighterProficiency% * OpponentKnowledge * FighterMatchup)
 	SL 50 vs SL 25
 	Odds = 80/20
 	SL 4 vs SL 2
@@ -92,21 +92,44 @@ Event Commands
 
 	/train 
 		- play a CPU match
-			win: decrease 5 stamina, gain exp
-			lose: decrease 10 stamina, gain exp
-		- practicing combos
+			Connects you with a fighter that has a fixed smash level
+				default: random fighter is picked
+				if provided a fighter, you will fight that fighter
+			win: decrease 5 stamina, gain 20 exp
+			lose: decrease 10 stamina, gain 10 exp
 			gain fighter proficiency
-			chance to make a breakthrough fighter tech?, granted exp and character proficiency
-			(optional) - discovering fighter tech adds +1 to win rate
+			gain matchup knowledge but only up to 5 for a character
+		(optional) - practicing combos (not a core feature)
+			gain fighter proficiency
+			gain exp
+			(optional) - chance to make a breakthrough fighter tech?, granted exp and character proficiency
+				discovering fighter tech adds +1 to win rate
 	
 	/onlineMatch play an online match
-		win: decrease 0 stamina, gain exp
-		lose: decrease 15 stamina, gain exp
+		Connects you with players with similar player level
+			player is generated and their stats (figther proficiency, matchup knowledge - generate random multiplier)
+			fighter you encouter
+		win: decrease 10 stamina, gain TBD exp
+		lose: decrease 20 stamina, gain TBD exp
 		gain character proficiency
 		gain matchup knowledge
 	
 	/Tournament 
 		- local : play a local match
 			randomly generate number of players and their stats (5-10 players?)
-			expend
 		- major : participate in a major tournament. Only available when a Major Tournament in real life is On Going
+		
+	(Optional) /challenge [player name]
+		- challenge any player within the server
+		
+Generating random players
+	
+	cpu
+	
+	online match
+		player level: +/- 10 of current player level
+		stamina + fighter proficiency + opponent knowledge + fighter matchup: .087875 - .225
+		
+	tournaments
+	
+	
