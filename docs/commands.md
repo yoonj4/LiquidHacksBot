@@ -24,16 +24,26 @@ Commands
 /train [fighter]
     -  Increase fighter exp
     -  TODO Figure out how much exp to reward for each session
+    -  "You earned [xxx] experience with [fighter]"
     
     
 /onlinematch
     Faces user against CPU generated player
     -  CPU has similar level to user (+/- 10)
     -  CPU fighter proficiency always 50
-    -  Awards more EXP than /train to player level and fighter proficiency
-    -  Decrease Stamina
+    -  WIN: Awards more EXP than /train to player level and fighter proficiency
+    -  LOSE: 
   
-  
+/rest
+    Disables actions for user until certain time elapses
+    -  "You go to sleep"
+    -  Disable /train, /onlinematch, /tournament, /challenge
+    -  Wait [time]
+    -  Set Stamina to 150.
+    -  Re-enable commands.
+    -  "You feel well rested"
+
+
 /tournament
     IF game enables local or major tournament
         -  "Local Tournament is starting in [time] minutes"
@@ -87,9 +97,14 @@ Commands
             -  Award extra Player EXP
    
  - end /tournament
+           
+           
+           
+/dropfighter [fighter]
+    Removes [fighter] from player's list of playable fighters.
+
             
-            
-/challenge [username]
+(optional) /challenge [username]
     Challenge another player in your server for bragging rights. This function should 
     -  Sends challenge prompt to [username]
     -  "waiting for [username]'s response... ... ... "
@@ -108,12 +123,16 @@ Commands
     
     -  (other player's perspective)
         -  "[user] wants to challenge"
-
+        -  "Do you accept this challenge? [Yes / No]"
 
 
 (optional) /scout [username]
-  Reports profile of [username] in current server.
-  If (no username) "This [username] does not exist"
+    -  Reports profile of [username] in current server.
+        -  Player Level
+        -  "Top 10 fighters" 
+            Fighters and proficiencies
+        
+    -  If (no username) "This [username] does not exist"
   
   
 
