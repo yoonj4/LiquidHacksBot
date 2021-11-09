@@ -1,7 +1,8 @@
-Commands
+**Commands**
 
 /newgame
-
+  
+  Create a game
   -  Check database if user exists
   -  If (no user exists)
       -  Enter Username
@@ -99,8 +100,7 @@ Commands
         - LOSE TOURNAMENT Scenario
             -  "You lost to [CPU Name] and their [CPU fighter]."
             -  Award extra Player EXP
-   
- - end /tournament
+end /tournament
            
            
 /dropfighter [fighter]
