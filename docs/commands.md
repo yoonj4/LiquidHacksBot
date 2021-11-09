@@ -1,12 +1,18 @@
 Commands
 
 /newgame
-  -  Enter Username
-  -  "Choose your Main."
-      -  Set fighter proficiency to 20
-  -  Provide quick story prompt
+
+  -  Check database if user exists
+  -  If (no user exists)
+      -  Enter Username
+      -  "Choose your Main."
+          -  Set fighter proficiency to 20
+      -  Provide quick story prompt
+  -  Else (user exists)
+      -  "Your game already exists with this discord profile. Delete your game with /restart to start over"
 
 /stats
+
   Reports profile of user.
     -  Name
     -  Player Level
@@ -16,12 +22,14 @@ Commands
     -  Earnings
   
 /train [fighter]
-    -  Increase fighter exp
+
+    Increase fighter exp
     -  TODO Figure out how much exp to reward for each session
     -  "You earned [xxx] experience with [fighter]"
     
     
 /onlinematch
+
     Faces user against CPU generated player
     -  CPU has similar level to user (+/- 10)
     -  CPU fighter proficiency always 50
@@ -29,6 +37,7 @@ Commands
     -  LOSE: 
   
 /rest
+
     Disables actions for user until certain time elapses
     -  "You go to sleep"
     -  Disable /train, /onlinematch, /tournament, /challenge
@@ -39,6 +48,7 @@ Commands
 
 
 /tournament
+
     IF game enables local or major tournament
         -  "Local Tournament is starting in [time] minutes"
         -  Create 7 random CPUs with designated fighters.
@@ -93,12 +103,13 @@ Commands
  - end /tournament
            
            
-           
 /dropfighter [fighter]
+
     Removes [fighter] from player's list of playable fighters.
 
             
 (optional) /challenge [username]
+
     Challenge another player in your server for bragging rights. This function should 
     -  Sends challenge prompt to [username]
     -  "waiting for [username]'s response... ... ... "
@@ -121,6 +132,7 @@ Commands
 
 
 (optional) /scout [username]
+
     -  Reports profile of [username] in current server.
         -  Player Level
         -  "Top 10 fighters" 
@@ -128,12 +140,11 @@ Commands
         
     -  If (no username) "This [username] does not exist"
   
-  
-
-/train [fighter]
-  
-  
-  
 Hidden Commands
 
-/AdminCreatePlayer XX - creates new player with level XX
+/AdminCreatePlayer [username] [playerlevel]
+
+    - Creates new player
+        -  name = [username]
+        -  playerlevel = [playerlevel]
+        -  fighters = (
