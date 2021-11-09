@@ -96,11 +96,10 @@
                 -  "you received [xxx] EXP"
                 -  "You won $$$$$$"
                 
-                
         - LOSE TOURNAMENT Scenario
             -  "You lost to [CPU Name] and their [CPU fighter]."
             -  Award extra Player EXP
-end /tournament
+/tournament ends
            
            
 /dropfighter [fighter]
@@ -144,7 +143,15 @@ Hidden Commands
 
 /AdminCreatePlayer [username] [playerlevel]
 
+    Creates a player profile into the database. This command is hidden from the normal Discord user.
     - Creates new player
         -  name = [username]
         -  playerlevel = [playerlevel]
-        -  fighters = (
+    - Set default fighters and fighter proficiencies
+        - MARIO 50
+        - DONKEY KONG 50
+        - LINK 50
+        - SAMUS 50
+        - SORA 50
+        // If max number of fighters change, update this list to include more default fighters.
+        
