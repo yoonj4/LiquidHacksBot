@@ -1,5 +1,6 @@
 const { SlashCommandBuilder } = require('@discordjs/builders');
 const Character = require('../character.js');
+const insertCharacter = require('../repository.js');
 
 module.exports = {
 	data: new SlashCommandBuilder()
@@ -25,7 +26,7 @@ module.exports = {
 		roster = new Set(roster);
 		if(roster.has(fighter)) {
 			const character = new Character(username, false, fighter); 
-			console.log(JSON.stringify(character)); 
+			insertCharacter(character);
 		} else {
 			await interaction.followUp({ content: 'fighter doesn\'t exist', ephemeral: true });
 		}
