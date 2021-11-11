@@ -20,3 +20,6 @@ git branch -D <branch name>
 
 # See git log history
 git log
+
+# Check current git status
+git status
