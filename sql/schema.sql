@@ -8,7 +8,7 @@ CREATE TABLE smash_game.`character` (
 	stamina INT DEFAULT 100 NOT NULL,
 	is_pro BOOL NOT NULL,
 	is_resting BOOL DEFAULT false NOT NULL,
-	discord_tag varchar(37) NOT NULL
+	discord_id varchar(37) NOT NULL,
 	CONSTRAINT character_PK PRIMARY KEY (character_id)
 )
 
