@@ -8,6 +8,9 @@ module.exports = class Character {
         this.name = name
         this.stamina = 100
         this.is_pro = is_pro
-        this.fighter_pool = new List(new FighterProf(0, fighter))
+        const fighter_prof = new FighterProf(0, fighter);
+        console.log(JSON.stringify(fighter_prof));
+        this.fighter_pool = new List()
+        this.fighter_pool.add(fighter_prof)
     }
 }
