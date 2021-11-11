@@ -2,19 +2,19 @@
 
 /newgame
   
-  Create a game
-  -  Check database if user exists
-  -  If (no user exists)
-      -  Enter Username
-      -  "Choose your Main."
-          -  Set fighter proficiency to 20
-      -  Provide quick story prompt
-  -  Else (user exists)
-      -  "Your game already exists with this discord profile. Delete your game with /restart to start over"
+    Create a game
+    -  Check database if user exists
+    -  If (no user exists)
+        -  Enter Username
+        -  "Choose your Main."
+            -  Set fighter proficiency to 20
+        -  Provide quick story prompt
+    -  Else (user exists)
+        -  "Your game already exists with this discord profile. Delete your game with /restart to start over"
 
 /stats
 
-  Reports profile of user.
+    Reports profile of user.
     -  Name
     -  Player Level
     -  All fighters and proficiencies
@@ -24,7 +24,9 @@
   
 /train [fighter]
 
-    Increase fighter exp
+    Earn player exp
+       -  
+    Earn fighter proficiency exp
     -  TODO Figure out how much exp to reward for each session
     -  "You earned [xxx] experience with [fighter]"
     
@@ -42,10 +44,15 @@
     Disables actions for user until certain time elapses
     -  "You go to sleep"
     -  Disable /train, /onlinematch, /tournament, /challenge
-    -  Wait [time]
+    -  Wait [2 hrs]
     -  Set Stamina to 150.
     -  Re-enable commands.
     -  "You feel well rested"
+    -  Optional
+       - Give choice to sleep a certain number of hours: 2, 4, 6, 8 (but honestly I don't think it really matters, 
+         there isn't really an incentive to manage sleep schedule)
+         - each option restores a certain amount of stamina
+         - choosing 8 hours will give you a bonus exp effect
 
 
 /tournament
