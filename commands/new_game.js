@@ -1,6 +1,11 @@
 const { SlashCommandBuilder } = require('@discordjs/builders');
 const Character = require('../character.js');
 const insertCharacter = require('../repository.js');
+const startTournament = require('../tournament.js');
+const { ssbuRoster } = require('../resources/roster.js');
+const { ToadScheduler, SimpleIntervalJob, Task } = require('toad-scheduler');
+
+const scheduler = new ToadScheduler();
 
 module.exports = {
 	data: new SlashCommandBuilder()
@@ -23,8 +28,7 @@ module.exports = {
 			return;
 		}
 		
-		let roster = ['MARIO', 'DONKEY KONG', 'LINK', 'SAMUS', 'DARK SAMUS', 'YOSHI', 'KIRBY', 'FOX'];
-		roster = new Set(roster);
+		const roster = ssbuRoster;
 		if(roster.has(fighter)) {
 			const character = new Character(username, false, fighter); 
 			insertCharacter(character);
@@ -32,5 +36,9 @@ module.exports = {
 		} else {
 			await interaction.reply({ content: 'Fighter doesn\'t exist.', ephemeral: true });
 		}
+
+		const task = new Task('start tournament', startTournament);
+		const job = new SimpleIntervalJob({ seconds: 20, }, task);
+		scheduler.addSimpleIntervalJob(job);
 	},
 };
