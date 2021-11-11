@@ -22,15 +22,15 @@ module.exports = {
 			await interaction.reply({ content: 'username is too long', ephemeral: true });
 			return;
 		}
+		
 		let roster = ['MARIO', 'DONKEY KONG', 'LINK', 'SAMUS', 'DARK SAMUS', 'YOSHI', 'KIRBY', 'FOX'];
 		roster = new Set(roster);
 		if(roster.has(fighter)) {
 			const character = new Character(username, false, fighter); 
 			insertCharacter(character);
+			await interaction.reply({ content: `Welcome to our discord game, ${username}!`, ephemeral: true });
 		} else {
-			await interaction.followUp({ content: 'fighter doesn\'t exist', ephemeral: true });
+			await interaction.reply({ content: 'Fighter doesn\'t exist.', ephemeral: true });
 		}
-		await interaction.reply({ content: `Welcome to our discord game, ${username}!`, ephemeral: true });
 	},
 };
-
