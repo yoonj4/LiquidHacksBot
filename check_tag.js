@@ -8,13 +8,16 @@ const connection = mysql.createConnection({
 });
 
 function checkDiscordTag(tag, callback) {
-    //let character = {};
     connection.query(`SELECT * FROM smash_game.character WHERE discord_tag = \'${tag}\'`, (err, data) => {
         if(err) throw err;
         // iterates through data and checks if tag exists
-        for(let i = 0; i < data.length; i++) {
-            if(data[i].discord_tag === tag) {
-                return callback(data[i]); 
+        if(data.length === 0) {
+            return callback(false);
+        } else {
+            for(let i = 0; i < data.length; i++) {
+                if(data[i].discord_tag === tag) {
+                    return callback(data[i]); 
+                } 
             }
         }
     }

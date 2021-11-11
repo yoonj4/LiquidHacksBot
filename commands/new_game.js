@@ -15,12 +15,12 @@ module.exports = {
 			option.setName('fighter')
 				.setDescription('choose fighter')
 				.setRequired(true)),
-	async execute(interaction) {
+	execute(interaction) {
 		let username = interaction.options.data[0].value;
 		username = username.replace(/\s+/g, '');
 
 		if(username.length > 20) {
-			await interaction.reply({ content: 'username is too long', ephemeral: true });
+			interaction.reply({ content: 'username is too long', ephemeral: true });
 		} 
 
 		let roster = ['MARIO', 'DONKEY KONG', 'LINK', 'SAMUS', 'DARK SAMUS', 'YOSHI', 'KIRBY', 'FOX'];
@@ -29,17 +29,19 @@ module.exports = {
 		
 		// check if fighter has roster
 		if(roster.has(fighter) === false) {
-			await interaction.reply({ content: 'fighter doesn\'t exist', ephemeral: true });
+			interaction.reply({ content: 'fighter doesn\'t exist', ephemeral: true });
 		}
 
 		// check if discord tag exists
-		if(checkDiscordTag(interaction.user.tag)) {
-			const character = new Character(interaction.user.tag, username, false, fighter); 
-			insertCharacter(character);
-			await interaction.reply({ content: `Welcome to our discord game, ${username}!`, ephemeral: true });
-		} else {
-			await interaction.reply({ content: `${interaction.user.tag} already exists!`, ephemeral: true}); 
-		}
+		checkDiscordTag(interaction.user.tag, (result) => {
+			if(result === false) {
+				const character = new Character(interaction.user.tag, username, false, fighter); 
+				insertCharacter(character);
+				interaction.reply({ content: `Welcome to our discord game, ${username}!`, ephemeral: true });
+			} else {
+				interaction.reply({ content: `${interaction.user.tag} already exists!`, ephemeral: true}); 
+			}
+		})
 	},
 };
 

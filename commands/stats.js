@@ -8,8 +8,12 @@ module.exports = {
 	execute(interaction) {
 		let characterObj = '';
 		checkDiscordTag(interaction.user.tag, (result) => {
-			characterObj = result;
-			interaction.reply({content: `Stats for ${characterObj.name}\n		Prize Money: ${characterObj.prize_money}$\n		Experience: ${characterObj.experience}\n		Stamina: ${characterObj.stamina}`, ephemeral: true});
+			if(result === false) {
+				interaction.reply({content: 'stats for user doesn\'t exist please create a user', ephemeral: true});
+			} else {
+				characterObj = result;
+				interaction.reply({content: `Stats for ${characterObj.name}\n		Prize Money: ${characterObj.prize_money}$\n		Experience: ${characterObj.experience}\n		Stamina: ${characterObj.stamina}`, ephemeral: true});
+			}
 		});
 	},
 };
