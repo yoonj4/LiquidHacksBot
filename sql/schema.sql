@@ -10,6 +10,7 @@ CREATE TABLE smash_game.`fighter_proficiency` (
 )
 
 CREATE TABLE smash_game.`character` (
+	discord_tag CHAR NOT NULL, 
 	character_id INT auto_increment NOT NULL,
 	prize_money INT DEFAULT 0 NOT NULL,
 	experience INT DEFAULT 0 NOT NULL,

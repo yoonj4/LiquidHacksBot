@@ -1,5 +1,6 @@
 const { SlashCommandBuilder } = require('@discordjs/builders');
 const Character = require('../character.js');
+const { checkDiscordTag } = require('../check_tag.js');
 const insertCharacter = require('../repository.js');
 
 module.exports = {
@@ -17,20 +18,28 @@ module.exports = {
 	async execute(interaction) {
 		let username = interaction.options.data[0].value;
 		username = username.replace(/\s+/g, '');
-		let fighter = interaction.options.data[1].value.toUpperCase();
+
 		if(username.length > 20) {
 			await interaction.reply({ content: 'username is too long', ephemeral: true });
-			return;
-		}
+		} 
+
 		let roster = ['MARIO', 'DONKEY KONG', 'LINK', 'SAMUS', 'DARK SAMUS', 'YOSHI', 'KIRBY', 'FOX'];
 		roster = new Set(roster);
-		if(roster.has(fighter)) {
-			const character = new Character(username, false, fighter); 
-			insertCharacter(character);
-		} else {
-			await interaction.followUp({ content: 'fighter doesn\'t exist', ephemeral: true });
+		let fighter = interaction.options.data[1].value.toUpperCase();
+		
+		// check if fighter has roster
+		if(roster.has(fighter) === false) {
+			await interaction.reply({ content: 'fighter doesn\'t exist', ephemeral: true });
 		}
-		await interaction.reply({ content: `Welcome to our discord game, ${username}!`, ephemeral: true });
+
+		// check if discord tag exists
+		if(checkDiscordTag(interaction.user.tag)) {
+			const character = new Character(interaction.user.tag, username, false, fighter); 
+			insertCharacter(character);
+			await interaction.reply({ content: `Welcome to our discord game, ${username}!`, ephemeral: true });
+		} else {
+			await interaction.reply({ content: `${interaction.user.tag} already exists!`, ephemeral: true}); 
+		}
 	},
 };
 

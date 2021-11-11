@@ -1,35 +1,15 @@
 const { SlashCommandBuilder } = require('@discordjs/builders');
-const mysql = require('mysql2');
-
-const connection = mysql.createConnection({
-	host: 'localhost',
-	user: 'root',
-	password: 'password',
-	database: 'smash_game'
-});
-
-connection.connect((err) => {
-	if (err) throw err;
-	console.log('Connected!');
-});
-
-function checkNames(datafield) {
-	connection.query(`SELECT ${datafield} FROM smash_game.character`, (err, columns) => {
-		if(err) throw err;
-		
-		console.log('Data received from Db:');
-		const dataColumn = columns; 
-		console.log(dataColumn);
-	});
-}
-
-checkNames('name');
+const { checkDiscordTag } = require('../check_tag.js');
 
 module.exports = {
 	data: new SlashCommandBuilder()
 		.setName('stats')
 		.setDescription('displays info of user profile'),
-	async execute(interaction) {
-        await interaction.reply(`name: ${interaction.guild.name}\nTotal members: ${interaction.guild.memberCount}`);
+	execute(interaction) {
+		let characterObj = '';
+		checkDiscordTag(interaction.user.tag, (result) => {
+			characterObj = result;
+			interaction.reply({content: `Prize Money: ${characterObj.prize_money}\nExperience: ${characterObj.experience}\nName: ${characterObj.name}\nStamina: ${characterObj.stamina}`, ephemeral: true});
+		});
 	},
 };
