@@ -9,7 +9,7 @@ module.exports = {
 		let characterObj = '';
 		checkDiscordTag(interaction.user.tag, (result) => {
 			characterObj = result;
-			interaction.reply({content: `Prize Money: ${characterObj.prize_money}\nExperience: ${characterObj.experience}\nName: ${characterObj.name}\nStamina: ${characterObj.stamina}`, ephemeral: true});
+			interaction.reply({content: `Stats for ${characterObj.name}\n		Prize Money: ${characterObj.prize_money}$\n		Experience: ${characterObj.experience}\n		Stamina: ${characterObj.stamina}`, ephemeral: true});
 		});
 	},
 };
