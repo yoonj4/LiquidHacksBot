@@ -17,3 +17,6 @@ git checkout <branch name>
 
 # Delete a branch
 git branch -D <branch name>
+
+# See git log history
+git log
