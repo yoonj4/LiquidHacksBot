@@ -2,7 +2,7 @@ const Character = require('./character.js')
 // const checkNames = require('./commands/stats')
 const mysql = require('mysql2/promise');
 
-module.exports = async function insertCharacter(character) {
+async function insertCharacter(character) {
     let connection = await mysql.createConnection({
         host     : 'localhost',
         user     : 'root',
@@ -18,3 +18,9 @@ module.exports = async function insertCharacter(character) {
 
     connection.end();
 }
+
+async function canLocalStart() {
+    return false;
+}
+
+module.exports = { insertCharacter, canLocalStart };
