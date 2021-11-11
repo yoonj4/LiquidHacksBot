@@ -1,6 +1,6 @@
 CREATE SCHEMA IF NOT EXISTS smash_game;
 
-CREATE TABLE smash_game.fighter_proficiency (
+CREATE TABLE smash_game.`fighter_proficiency` (
 	fp_id INT auto_increment NOT NULL,
 	character_id INT NOT NULL,
 	experience INT NOT NULL,
