@@ -1,43 +1,45 @@
 const { SlashCommandBuilder } = require('@discordjs/builders');
 const Character = require('../character.js');
-const { checkDiscordTag } = require('../check_tag.js');
-const insertCharacter = require('../repository.js');
 const { ssbuRoster } = require('../resources/roster.js');
+const db = require('./../repository.js');
 
 module.exports = {
 	data: new SlashCommandBuilder()
 		.setName('newgame')
-		.setDescription('prompts for username')
+		.setDescription('Create a new character')
         .addStringOption(option =>
             option.setName('username')
-				.setDescription('name with no spaces max character limit of 20')
+				.setDescription('Name with no spaces max character limit of 20')
                 .setRequired(true))
 		.addStringOption(option =>
 			option.setName('fighter')
-				.setDescription('choose fighter')
+				.setDescription('Enter your favorite fighter')
 				.setRequired(true)),
 	execute(interaction) {
 		let username = interaction.options.data[0].value;
+		const guildId = interaction.guildId;
+
 		username = username.replace(/\s+/g, '');
 
 		if(username.length > 20) {
-			interaction.reply({ content: 'username is too long', ephemeral: true });
+			interaction.reply({ content: 'Username is too long', ephemeral: true });
 		} 
 		let fighter = interaction.options.data[1].value.toUpperCase();
-		// check if fighter has roster
+		// check if fighter input is in roster. If not, reply and exit program
 		if(ssbuRoster.has(fighter) === false) {
-			interaction.reply({ content: 'fighter doesn\'t exist', ephemeral: true });
+			return interaction.reply({ content: 'Fighter doesn\'t exist', ephemeral: true });
 		}
 
 		// check if discord tag exists
-		checkDiscordTag(interaction.user.tag, (result) => {
-			if(result === false) {
-				const character = new Character(username, false, fighter, interaction.user.tag);
-				insertCharacter(character);
-				interaction.reply({ content: `Welcome to our discord game, ${username}!`, ephemeral: true });
-			} else {
-				interaction.reply({ content: `${interaction.user.tag} already exists!`, ephemeral: true}); 
-			}
-		})
+		let result = db.checkDiscordTag(interaction.user.tag, guildId);
+		
+		if(result === false) {
+			const character = new Character(username, false, fighter, interaction.user.tag);
+			
+			db.insertCharacter(character, guildId);
+			interaction.reply({ content: `Welcome to our discord game, ${username}!`, ephemeral: true });
+		} else {
+			return interaction.reply({ content: `${username} already exists!`, ephemeral: true}); 
+		}
 	},
 };
