@@ -33,7 +33,6 @@ async function addExperience(tag, exp, fighter) {
     return data[0]; 
 }
 
-
 /*
 function getCharacter(tag, callback) {    
     const [rows] = await (await getConnection()).query(`SELECT * FROM smash_game.character WHERE discord_tag = \'${tag}\'`);
