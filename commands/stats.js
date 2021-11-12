@@ -15,7 +15,7 @@ module.exports = {
 		
 		if (interaction.options.data.length == 0) {
 			// Lookup stats for inputted user
-			statReport(await db.checkDiscordTag(interaction.user.username, interaction.guildId))
+			statReport(await db.checkDiscordTag(username, interaction.guildId))
 		} 
 		else {
 			// Lookup user's stats

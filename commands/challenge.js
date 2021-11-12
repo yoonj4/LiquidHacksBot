@@ -1,6 +1,8 @@
 const { SlashCommandBuilder } = require('@discordjs/builders');
 const { ssbuRoster } = require('../resources/roster.js');
 const mysql = require('mysql2/promise');
+const { challenges } = require('../index.js');
+
 
 module.exports = {
 	data: new SlashCommandBuilder()
@@ -8,23 +10,33 @@ module.exports = {
 		.setDescription('Challenge another person in your server')
         .addStringOption(option =>
             option.setName('player')
-                .setDescription('The person you want to fight')
+                .setDescription('Enter their in-game name')
                 .setRequired(true)),
 	async execute(interaction) {
-		let connection = await mysql.createConnection({
-			host     : 'localhost',
-			user     : 'root',
-			password : 'password',
-			database : 'smash_game'
-		});
 		
-        connection.connect();
-
+		// find opponent's ID to direct message them through discord
+		let user = interaction.user.username
 		let opponent = interaction.options.data[0].value;
-		let opponentExists = false;
+		const guildId = interaction.guildId
+
+		if (checkDiscordTag(opponent, guildId) == false) {
+			await interaction.reply({context: 'No player with this name in this game or server.', ephemeral: true});
+			return;
+		}
+
+		// If an opposing challenge has already been issued, commence fight. If not, add your challenge to the list.
+		challenges.forEach(element => { 
+			if (element[0] == opponent && element[1] == user) {
+				
+			}
+		})
 		
-		let [rows, fields] = await connection.execute(`SELECT COUNT(*) AS count FROM smash_game.\`character\` WHERE name = ?`, [opponent]);
-		console.log(rows);
+		
+
+		
+
+		
+
 // TODO Need to add string option so it is /challenge [fighter] to quicken the process.
 // TODO Need to send prompt to opponent for acceptance. Opponent accepts challenge and chooses fighter by simply typing a [fighter]. Any other input exits challenge.
 		if (rows[0].count == 0) {

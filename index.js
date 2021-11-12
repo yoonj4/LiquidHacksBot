@@ -5,6 +5,10 @@ const { token } = require('./config.json');
 // Create a new client instance
 const client = new Client({ intents: [Intents.FLAGS.GUILDS] });
 
+// Container for /challenge. Each element is sub-array = [challenge sender, challenge receiver]. 
+let challenges = [];
+exports.challenges = []
+
 client.commands = new Collection();
 const commandFiles = fs.readdirSync('./commands').filter(file => file.endsWith('.js'));
 
