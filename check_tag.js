@@ -20,6 +20,7 @@ function checkDiscordTag(tag, callback) {
                 } 
             }
         }
+        connection.end();
     }
 )}
 

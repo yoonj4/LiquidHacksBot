@@ -12,7 +12,8 @@ module.exports = {
 				interaction.reply({content: 'stats for user doesn\'t exist please create a user', ephemeral: true});
 			} else {
 				characterObj = result;
-				interaction.reply({content: `Stats for ${characterObj.name}\n		Prize Money: ${characterObj.prize_money}$\n		Experience: ${characterObj.experience}\n		Stamina: ${characterObj.stamina}`, ephemeral: true});
+				const status = (characterObj.is_resting === 1) ? 'resting' : 'rested'; 
+				interaction.reply({content: `Stats for ${characterObj.name} (${status}):\n		Prize Money: $${characterObj.prize_money}\n		Experience: ${characterObj.experience}\n		Stamina: ${characterObj.stamina}`, ephemeral: true});
 			}
 		});
 	},
