@@ -12,7 +12,29 @@ async function insertCharacter(character, guildId) {
     const [rows] = await (await connection).execute('insert into smash_game.character(prize_money, experience, name, stamina, is_pro, discord_tag, guild_id) values(?, ?, ?, ?, ?, ?, ?)', [character.prize_money, character.experience, character.name, character.stamina, character.is_pro, character.character_tag, guildId]);
     const char_id = rows.insertId;
     const fighter_prof = character.fighter_pool.only();
-    (await connection).execute('insert into smash_game.`fighter_proficiency`(character_id, experience, name) values(?, ?, ?)', [char_id, fighter_prof.experience, fighter_prof.name]);
+    return connection.execute('insert into smash_game.`fighter_proficiency`(character_id, experience, name) values(?, ?, ?)', [char_id, fighter_prof.experience, fighter_prof.name]);
+}
+
+async function addFighterProficiency(fp) {
+    await getConnection().execute('update smash_game.fighter_proficiency set experience = experience + fp where fp_id')
+}
+
+async function levelUp(remainder) {
+    // print message to player
+    // update character experience
+    await getConnection().execute('update smash_game.character set experience = remainder where character_id')
+}
+
+async function increaseStamina(stamina) {
+
+}
+
+async function getSmashLv() {
+    return;
+}
+
+async function chooseFighter() {
+    return;
 }
 
 async function canLocalStart() {
@@ -37,22 +59,41 @@ async function checkDiscordTag(username, guildId) {
     }
 }
 
-async function addExperience(tag, exp, stamina, fighter) {
+async function addExperience(tag, fighter, exp) {
     const [row] = await (await connection).execute(`SELECT * FROM smash_game.fighter_proficiency WHERE smash_game.fighter_proficiency.name =\'${fighter}\'`);
-    await (await connection).execute(`UPDATE smash_game.character INNER JOIN smash_game.fighter_proficiency ON smash_game.fighter_proficiency.character_id = smash_game.character.character_id SET smash_game.character.experience = smash_game.character.experience + ${exp}, smash_game.fighter_proficiency.experience = smash_game.fighter_proficiency.experience + ${exp}, smash_game.character.stamina = smash_game.character.stamina - ${stamina} WHERE smash_game.character.discord_tag = \'${tag}\' AND smash_game.fighter_proficiency.name = \'${fighter}\'`); 
+    await (await connection).execute(`UPDATE smash_game.character INNER JOIN smash_game.fighter_proficiency ON smash_game.fighter_proficiency.character_id = smash_game.character.character_id SET smash_game.character.experience = smash_game.character.experience + ${exp}, smash_game.fighter_proficiency.experience = smash_game.fighter_proficiency.experience + ${exp} WHERE smash_game.character.discord_tag = \'${tag}\' AND smash_game.fighter_proficiency.name = \'${fighter}\'`); 
     return row; 
+}
+
+async function decreaseStamina(tag, stamina) {
+    await (await connection).execute(`UPDATE smash_game.character INNER JOIN smash_game.fighter_proficiency ON smash_game.fighter_proficiency.character_id = smash_game.character.character_id SET smash_game.character.stamina = smash_game.character.stamina - ${stamina} WHERE smash_game.character.discord_tag = \'${tag}\'`);
 }
 
 async function getCharacter(tag) {
     const [character] = await (await connection).execute(`SELECT * FROM smash_game.character WHERE smash_game.character.discord_tag =\'${tag}\'`);  
-    return character; 
+    if(character === undefined) {
+        console.log('character does not exist!');
+    } else {
+        return character;
+    }
+}
+
+async function getFighter(id, name) {
+    const [fighter] = await (await connection).execute(`SELECT * FROM smash_game.fighter_proficiency WHERE smash_game.fighter_proficiency.character_id = ${id} AND smash_game.fighter_proficiency.name = \'${name}\'`); 
+    if(fighter === undefined) {
+        console.log('fighter does not exist!');
+    } else {
+        return fighter;
+    }
 }
 
 module.exports = { 
     addExperience, 
     canLocalStart,
     checkDiscordTag,
-    getCharacter,
+    decreaseStamina,
+    getCharacter, 
+    getFighter,
     insertCharacter,
     rest,
 };

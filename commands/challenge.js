@@ -11,15 +11,6 @@ module.exports = {
                 .setDescription('The person you want to fight')
                 .setRequired(true)),
 	async execute(interaction) {
-		let connection = await mysql.createConnection({
-			host     : 'localhost',
-			user     : 'root',
-			password : 'password',
-			database : 'smash_game'
-		});
-		
-        connection.connect();
-
 		let opponent = interaction.options.data[0].value;
 		let opponentExists = false;
 		
