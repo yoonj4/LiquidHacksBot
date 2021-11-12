@@ -1,6 +1,6 @@
 const { SlashCommandBuilder } = require('@discordjs/builders');
 const Character = require('../character.js');
-const ssbuRoster = require('../resources/roster.js');
+const { ssbuRoster } = require('../resources/roster.js');
 const db = require('./../repository.js');
 
 module.exports = {
@@ -25,9 +25,9 @@ module.exports = {
 			interaction.reply({ content: 'Username is too long', ephemeral: true });
 		} 
 		let fighter = interaction.options.data[1].value.toUpperCase();
-		// check if fighter has roster
+		// check if fighter input is in roster. If not, reply and exit program
 		if(ssbuRoster.has(fighter) === false) {
-			interaction.reply({ content: 'Fighter doesn\'t exist', ephemeral: true });
+			return interaction.reply({ content: 'Fighter doesn\'t exist', ephemeral: true });
 		}
 
 		// check if discord tag exists
@@ -39,7 +39,7 @@ module.exports = {
 			db.insertCharacter(character, guildId);
 			interaction.reply({ content: `Welcome to our discord game, ${username}!`, ephemeral: true });
 		} else {
-			interaction.reply({ content: `${username} already exists!`, ephemeral: true}); 
+			return interaction.reply({ content: `${username} already exists!`, ephemeral: true}); 
 		}
 	},
 };
