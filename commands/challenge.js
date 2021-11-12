@@ -1,7 +1,6 @@
 const { SlashCommandBuilder } = require('@discordjs/builders');
 const { ssbuRoster } = require('../resources/roster.js');
 const mysql = require('mysql2/promise');
-const { challenges } = require('../index.js');
 const match = require('../match.js');
 const Character = require('../character.js');
 

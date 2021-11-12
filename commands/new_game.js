@@ -1,7 +1,7 @@
 const { SlashCommandBuilder } = require('@discordjs/builders');
 const Character = require('../character.js');
 const { ssbuRoster } = require('../resources/roster.js');
-const db = require('./../repository.js');
+const db = require('../repository.js');
 
 module.exports = {
 	data: new SlashCommandBuilder()

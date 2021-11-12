@@ -15,6 +15,7 @@ async function insertCharacter(character, guildId) {
     return connection.execute('insert into smash_game.`fighter_proficiency`(character_id, experience, name) values(?, ?, ?)', [char_id, fighter_prof.experience, fighter_prof.name]);
 }
 
+/*
 async function addFighterProficiency(fp) {
     await getConnection().execute('update smash_game.fighter_proficiency set experience = experience + fp where fp_id')
 }
@@ -36,6 +37,7 @@ async function getSmashLv() {
 async function chooseFighter() {
     return;
 }
+*/
 
 async function canLocalStart() {
     const [rows] = await (await connection).execute('select count(*) as num_players from smash_game.character');
@@ -103,6 +105,7 @@ module.exports = {
     checkDiscordTag,
     decreaseStamina,
     getCharacter, 
+    getDiscordTag,
     getFighter,
     insertCharacter,
     rest,

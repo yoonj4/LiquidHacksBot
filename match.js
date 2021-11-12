@@ -1,7 +1,7 @@
 const Character = require('./character.js');
 const FighterProf = require('./fighter_prof.js');
 
- modules.export = function(char1, char2, fighter1, fighter2){
+ module.exports = function(char1, char2, fighter1, fighter2){
     // calculate smash level
     let smashLv1 = calculateSmashLv(char1.calculateCharacterLv(), fighter1.calculateFighterLv(), char1.stamina);
     let smashLv2 = calculateSmashLv(char2.calculateCharacterLv(), fighter2.calculateFighterLv(), char2.stamina);
