@@ -50,7 +50,17 @@ async function rest(username, restTimer) {
 }
 
 async function checkDiscordTag(username, guildId) {
-    const [rows,field] = await (await connection).execute('SELECT * FROM smash_game.character WHERE name = ? AND guild_id = ?', [username, guildId]);
+    const [rows,field] = await (await connection).execute('SELECT * FROM smash_game.character WHERE discord_tag = ? AND guild_id = ?', [username, guildId]);
+    if (rows.length == 0) {
+        return false;
+    }
+    else {
+        return rows[0];
+    }
+}
+
+async function getDiscordTag(username, guildId) {
+    const [rows,field] = await (await connection).execute('SELECT discord_tag FROM smash_game.character WHERE name = ? AND guild_id = ?', [username, guildId]);
     if (rows.length == 0) {
         return false;
     }
