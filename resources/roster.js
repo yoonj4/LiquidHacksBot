@@ -87,7 +87,6 @@ const ssbuRoster = new Set(
     "ZELDA",
     "ZERO SUIT SAMUS"
     ]
-
 );
 
 module.exports = {ssbuRoster};
