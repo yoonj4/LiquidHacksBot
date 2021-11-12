@@ -22,12 +22,24 @@ async function canLocalStart() {
 
 async function rest(username, restTimer) {
     await (await connection).execute('UPDATE smash_game.`character` SET is_resting = true WHERE discord_tag = ?', [username]);
+    await (await connection).execute('UPDATE smash_game.`character` SET stamina = 100 WHERE discord_tag = ?', [username]);
     await new Promise(r => setTimeout(r, restTimer));
     (await connection).execute('UPDATE smash_game.`character` SET is_resting = false WHERE discord_tag = ?', [username]);
 }
 
-module.exports = { 
+async function checkDiscordTag(username, guildId) {
+    const [rows,field] = await (await connection).execute('SELECT * FROM smash_game.character WHERE name = ? AND guild_id = ?', [username, guildId]);
+    if (rows.length == 0) {
+        return false;
+    }
+    else {
+        return rows[0];
+    }
+}
+
+module.exports = {
     insertCharacter,
     canLocalStart,
-    rest
+    rest,
+    checkDiscordTag
 };
