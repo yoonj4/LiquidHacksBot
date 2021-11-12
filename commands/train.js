@@ -1,27 +1,26 @@
 const { SlashCommandBuilder } = require('@discordjs/builders');
 const repository = require('../repository.js');
-//const { getFighter } = require('../repository.js');
+const mysql = require('mysql2/promise');
 
 module.exports = {
-	data: new SlashCommandBuilder()
-		.setName('train')
-		.setDescription('train specific fighter')
+    data: new SlashCommandBuilder()
+        .setName('train')
+        .setDescription('train specific fighter')
         .addStringOption(option =>
             option.setName('fighter')
-				.setDescription('choose fighter')
+                .setDescription('choose fighter')
                 .setRequired(true)),
-	execute(interaction) {
-        // interaction.reply({content:`${character}`, ephemeral: true});
-        const exp = 20; 
-        repository.addExperience(interaction.user.tag, exp);
-        // console.log(character);
-        /*
-        const fighter = interaction.options.data[0].value;
-        getFighter(fighter, (result) => {
-            const fighter = result.experience + 20; 
-        }); 
-        */
-        // connection.query(`SELECT * FROM smash_game.character WHERE `)
-		//interaction.reply({content:`${input}`, ephemeral: true});
-	},
+    async execute(interaction) {
+        // stamina goes down, experience goes up
+        const character = await repository.getCharacter(interaction.user.tag);
+        if(character[0].stamina === 0) {
+            interaction.reply({content: 'you are too tired to train', ephemeral: true});
+        } else {
+            let fighter = interaction.options.data[0].value;
+            const stamina = 10;
+            const exp = 20;
+            fighter = await (repository.addExperience(interaction.user.tag, exp, stamina, fighter.toUpperCase()));
+            interaction.reply({content: `Stats increased!\nFighter: ${fighter[0].name}\nExperience: ${fighter[0].experience - 20} + ${exp} (${fighter[0].experience})`, ephemeral: true});
+        }
+    },
 };
