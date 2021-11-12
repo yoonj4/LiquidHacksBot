@@ -24,4 +24,9 @@ async function getConnection() {
     return await connection;
 }
 
-module.exports = { insertCharacter, canLocalStart };
+module.exports = { 
+    insertCharacter,
+    canLocalStart,
+    getConnection,
+    connection
+};
