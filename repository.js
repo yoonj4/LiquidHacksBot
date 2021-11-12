@@ -26,8 +26,8 @@ async function getConnection() {
 
 // `UPDATE smash_game.character SET experience = experience + 20  WHERE discord_tag = \'${tag}\'` 
 // await connection.execute('UPDATE smash_game.`character` SET is_resting = true WHERE discord_id = ?', [interaction.user.tag]);
-async function addExperience(tag, exp) {
-    await (await getConnection()).execute(`UPDATE smash_game.character INNER JOIN smash_game.fighter_proficiency ON smash_game fighter_proficiency.character_id = smash_game.character.character_id SET smash_game.character.experience = smash_game.character.experience + ${exp}, smash_game.fighter_proficiency.experience = smash_game.fighter_proficiency.experience + ${exp} WHERE smash_game.character.discord_tag = \'${tag}\'`); 
+async function addExperience(tag, exp, fighter) {
+    await (await getConnection()).execute(`UPDATE smash_game.character INNER JOIN smash_game.fighter_proficiency ON smash_game.fighter_proficiency.character_id = smash_game.character.character_id SET smash_game.character.experience = smash_game.character.experience + 20, smash_game.fighter_proficiency.experience = smash_game.fighter_proficiency.experience + 20 WHERE smash_game.character discord_tag = 'nastynate#4242' AND smash_game.fighter_proficiency.name = 'LINK'`); 
     console.log('Data received from Db:');
     //console.log(data[0]);
     return data[0]; 
