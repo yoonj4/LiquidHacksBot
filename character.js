@@ -12,5 +12,6 @@ module.exports = class Character {
         console.log(JSON.stringify(fighter_prof));
         this.fighter_pool = new List()
         this.fighter_pool.add(fighter_prof)
+        this.character_id = null
     }
 }
