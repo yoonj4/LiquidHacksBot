@@ -1,5 +1,5 @@
 const { SlashCommandBuilder } = require('@discordjs/builders');
-const { getCharacter } = require('../repository.js');
+const repository = require('../repository.js');
 //const { getFighter } = require('../repository.js');
 
 module.exports = {
@@ -11,13 +11,10 @@ module.exports = {
 				.setDescription('choose fighter')
                 .setRequired(true)),
 	execute(interaction) {
-        getCharacter(interaction.user.tag, (result) => {
-            // adds experience points to character 
-            const exp = result.experience + 20;
-            console.log(exp);
-            // add exp
-            interaction.reply({content:`${character}`, ephemeral: true});
-		});
+        // interaction.reply({content:`${character}`, ephemeral: true});
+        const exp = 20; 
+        repository.addExperience(interaction.user.tag, exp);
+        // console.log(character);
         /*
         const fighter = interaction.options.data[0].value;
         getFighter(fighter, (result) => {
