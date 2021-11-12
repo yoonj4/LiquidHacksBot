@@ -11,10 +11,16 @@ module.exports = {
                 .setDescription('choose fighter')
                 .setRequired(true)),
     async execute(interaction) {
-        let fighter = interaction.options.data[0].value;
-        const stamina = 10;
-        const exp = 20; 
-        fighter = await (repository.addExperience(interaction.user.tag, exp, stamina, fighter.toUpperCase()));
-        interaction.reply({content: `Stats increased!\nFighter: ${fighter[0].name}\nExperience: ${fighter[0].experience - 20} + ${exp} (${fighter[0].experience})`, ephemeral: true});
+        // stamina goes down, experience goes up 
+        const character = await repository.getCharacter(interaction.user.tag);
+        if(character[0].stamina === 0) {
+            interaction.reply({content: 'you are too tired to train', ephemeral: true});
+        } else {
+            let fighter = interaction.options.data[0].value;
+            const stamina = 10;
+            const exp = 20; 
+            fighter = await (repository.addExperience(interaction.user.tag, exp, stamina, fighter.toUpperCase()));
+            interaction.reply({content: `Stats increased!\nFighter: ${fighter[0].name}\nExperience: ${fighter[0].experience - 20} + ${exp} (${fighter[0].experience})`, ephemeral: true});
+        }
     },
 };

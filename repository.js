@@ -22,6 +22,8 @@ async function canLocalStart() {
 
 async function rest(username, restTimer) {
     await (await connection).execute('UPDATE smash_game.`character` SET is_resting = true WHERE discord_tag = ?', [username]);
+    await (await connection).execute('UPDATE smash_game.`character` SET stamina = 100 WHERE discord_tag = ?', [username]);
+
     await new Promise(r => setTimeout(r, restTimer));
     (await connection).execute('UPDATE smash_game.`character` SET is_resting = false WHERE discord_tag = ?', [username]);
 }
@@ -29,12 +31,16 @@ async function rest(username, restTimer) {
 async function addExperience(tag, exp, stamina, fighter) {
     const [row] = await (await connection).execute(`SELECT * FROM smash_game.fighter_proficiency WHERE smash_game.fighter_proficiency.name =\'${fighter}\'`);
     await (await connection).execute(`UPDATE smash_game.character INNER JOIN smash_game.fighter_proficiency ON smash_game.fighter_proficiency.character_id = smash_game.character.character_id SET smash_game.character.experience = smash_game.character.experience + ${exp}, smash_game.fighter_proficiency.experience = smash_game.fighter_proficiency.experience + ${exp}, smash_game.character.stamina = smash_game.character.stamina - ${stamina} WHERE smash_game.character.discord_tag = \'${tag}\' AND smash_game.fighter_proficiency.name = \'${fighter}\'`); 
-    console.log('Data received from Db:');
     return row; 
+}
+
+async function getCharacter(tag) {
+    const [character] = await (await connection).execute(`SELECT * FROM smash_game.character WHERE smash_game.character.discord_tag =\'${tag}\'`);  
+    return character; 
 }
 
 module.exports = { 
     insertCharacter,
     canLocalStart,
-    rest, addExperience
+    rest, addExperience, getCharacter
 };
