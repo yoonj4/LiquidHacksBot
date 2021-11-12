@@ -1,26 +1,16 @@
 const { SlashCommandBuilder } = require('@discordjs/builders');
 const mysql = require('mysql2/promise');
+const db = require('./../repository.js');
+
+var restTimer = 12 * 1000; // in milliseconds
 
 module.exports = {
 	data: new SlashCommandBuilder()
 		.setName('rest')
-		.setDescription('rest for 5 minutes'),
+		.setDescription('rest while disabling actions for ' + restTimer/1000 + ' seconds'),
 	async execute(interaction) {
-		let connection = await mysql.createConnection({
-			host     : 'localhost',
-			user     : 'root',
-			password : 'password',
-			database : 'smash_game'
-		});
-
-		connection.connect();
-		
 		interaction.reply({ content: 'Resting ... ... ... ', ephemeral: true });
-		await connection.execute('UPDATE smash_game.`character` SET is_resting = true WHERE discord_tag = ?', [interaction.user.tag]);
-        await new Promise(r => setTimeout(r, 300*1000)); //in milliseconds
-		await connection.execute('UPDATE smash_game.`character` SET is_resting = false WHERE discord_tag = ?', [interaction.user.tag]);
-        interaction.followUp({ content: 'Finished resting. You feel refreshed!', ephemeral: true })
-		
-		connection.end();
+		await db.rest(interaction.user.tag, restTimer);
+		interaction.followUp({ content: 'Finished resting. You feel refreshed!', ephemeral: true })
 	},
 };
