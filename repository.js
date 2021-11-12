@@ -26,7 +26,7 @@ async function getConnection() {
 
 async function getCharacter(tag, callback) {    
     connection.connect()
-    await connection.execute(`SELECT * FROM smash_game.character WHERE discord_tag = \'${tag}\'`, (err, data) => {
+    connection.query(`SELECT * FROM smash_game.character WHERE discord_tag = \'${tag}\'`, (err, data) => {
         if(err) throw err;
         console.log('Data received from Db:');
         const character = data[0]; 
@@ -34,12 +34,11 @@ async function getCharacter(tag, callback) {
     });
     connection.end();
 }
-
+/*
 async function getFighter(fighter) {
     console.log(fighter);
 }
-
+*/ 
 module.exports.getCharacter = getCharacter; 
-module.exports.getFighter = getFighter;
-
+//module.exports.getFighter = getFighter;
 module.exports = { insertCharacter, canLocalStart };

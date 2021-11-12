@@ -1,5 +1,6 @@
 const { SlashCommandBuilder } = require('@discordjs/builders');
-const { getCharacter } = require('../get_character.js');
+const { getCharacter } = require('../repository.js');
+//const { getFighter } = require('../repository.js');
 
 module.exports = {
 	data: new SlashCommandBuilder()
@@ -11,12 +12,18 @@ module.exports = {
                 .setRequired(true)),
 	execute(interaction) {
         getCharacter(interaction.user.tag, (result) => {
-            const characterId = result.character_id;
-            interaction.reply({content:`${characterId}`, ephemeral: true});
+            // adds experience points to character 
+            const exp = result.experience + 20;
+            console.log(exp);
+            // add exp
+            interaction.reply({content:`${character}`, ephemeral: true});
 		});
-        const input = interaction.options.data[0].value;
-        
-
+        /*
+        const fighter = interaction.options.data[0].value;
+        getFighter(fighter, (result) => {
+            const fighter = result.experience + 20; 
+        }); 
+        */
         // connection.query(`SELECT * FROM smash_game.character WHERE `)
 		//interaction.reply({content:`${input}`, ephemeral: true});
 	},
