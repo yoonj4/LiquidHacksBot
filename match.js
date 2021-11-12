@@ -1,49 +1,25 @@
-const Character = require('./character.js')
+const Character = require('./character.js');
+const FighterProf = require('./fighter_prof.js');
 
-modules.export = function(character1, character2){
-    // get all necessary data to calculate smash level
-    // get fighter proficiencies
-    let fighterLv1 = fighter1.calculateFighterLv();
-    let fighterLv2 = fighter2.calculateFighterLv();
-
-    // get player levels
-    let characterLv1 = player1.calculateCharacterLv();
-    let characterLv2 = player2.calculateCharacterLv();
-
+ modules.export = function(char1, char2, fighter1, fighter2){
     // calculate smash level
-    let smashLv1 = calculateSmashLv();
-    let smashLv2 = calculateSmashLv();
+    let smashLv1 = calculateSmashLv(char1.calculateCharacterLv(), fighter1.calculateFighterLv(), char1.stamina);
+    let smashLv2 = calculateSmashLv(char2.calculateCharacterLv(), fighter2.calculateFighterLv(), char2.stamina);
 
     // calculate each player's odds of winning
-    let character1Odds = (smashLv1 / (smashLv1 + smashLv2)) * 100
-    let character2Odds = (smashLv2 / (smashLv1 + smashLv2)) * 100
+    let char1Odds = (smashLv1 / (smashLv1 + smashLv2)) * 100
 
     // Get a random number between 0 and 100
-    let roll = Math.round(Math.random() * 100);
-    let winner = "";
+    let roll = Math.random() * 100;
 
     // determine winner
-    if (character1Odds > character2Odds) {
-        character1Odds = Math.ceiling(character1Odds);
-        character2Odds = Math.floor(character2Odds);
-        if (roll > 0 && roll < character1Odds) {
-            winner = character1.name;
-        } else {
-            winner = character2.name;
-        }
+    if (roll <= char1Odds) {
+        return char1
     } else {
-        character1Odds = Math.floor(character1Odds);
-        character2Odds = Math.ceiling(character2Odds);
-        if (roll > 0 && roll < character2Odds) {
-            winner = character2.name;
-        } else {
-            winner = character1.name
-        }
+        return char2
     }
+ }
 
-    return winner; //return an array [Character object, "fighter_name"]
-}
-
-function calculateSmashLv(characterLv, fighterLv) {
-    return playerLv + fighterLv;
+function calculateSmashLv(characterLv, fighterLv, stamina) {
+    return (characterLv + fighterLv) * (.5 * (stamina / 100) + .5);
 }

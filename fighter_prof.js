@@ -5,6 +5,6 @@ module.exports = class FighterProf {
     }
 
     calculateFighterLv() {
-        return Math.ceil(experience / 100);
+        return Math.ceil(this.experience / 100);
     }
 }

@@ -58,7 +58,7 @@ async function checkDiscordTag(username, guildId) {
         return rows[0];
     }
 }
-// , smash_game.character.stamina = smash_game.character.stamina - ${stamina}
+
 async function addExperience(tag, fighter, exp) {
     const [row] = await (await connection).execute(`SELECT * FROM smash_game.fighter_proficiency WHERE smash_game.fighter_proficiency.name =\'${fighter}\'`);
     await (await connection).execute(`UPDATE smash_game.character INNER JOIN smash_game.fighter_proficiency ON smash_game.fighter_proficiency.character_id = smash_game.character.character_id SET smash_game.character.experience = smash_game.character.experience + ${exp}, smash_game.fighter_proficiency.experience = smash_game.fighter_proficiency.experience + ${exp} WHERE smash_game.character.discord_tag = \'${tag}\' AND smash_game.fighter_proficiency.name = \'${fighter}\'`); 
