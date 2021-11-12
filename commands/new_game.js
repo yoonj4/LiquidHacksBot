@@ -23,10 +23,10 @@ module.exports = {
 			await interaction.reply({ content: 'username is too long', ephemeral: true });
 			return;
 		}
-		
 		const roster = ssbuRoster;
+		let discord_id = interaction.user.tag
 		if(roster.has(fighter)) {
-			const character = new Character(username, false, fighter); 
+			const character = new Character(username, false, fighter, discord_id); 
 			insertCharacter(character);
 			await interaction.reply({ content: `Welcome to our discord game, ${username}!`, ephemeral: true });
 		} else {

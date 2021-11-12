@@ -1,8 +1,10 @@
 const { canLocalStart } = require('./repository.js');
 
 async function startTournament() {
-    const a = await canLocalStart();
-    console.log(a);
+    if (await canLocalStart()) {
+        const channels = client.channels;
+        return;
+    }
 }
 
 module.exports = { startTournament };

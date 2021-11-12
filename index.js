@@ -2,8 +2,8 @@ const fs = require('fs');
 const { Client, Collection, Intents } = require('discord.js');
 // Require the necessary discord.js classes
 const { token } = require('./config.json');
-const { startTournament } = require('./tournament.js');
 const { ToadScheduler, SimpleIntervalJob, Task } = require('toad-scheduler');
+const { canLocalStart } = require('./repository.js');
 
 const scheduler = new ToadScheduler();
 // Create a new client instance
@@ -45,3 +45,10 @@ client.login(token);
 const task = new Task('start tournament', startTournament);
 const job = new SimpleIntervalJob({ seconds: 1, }, task);
 scheduler.addSimpleIntervalJob(job);
+
+async function startTournament() {
+    if (await canLocalStart()) {
+        const channels = client.channels;
+        return;
+    }
+}
