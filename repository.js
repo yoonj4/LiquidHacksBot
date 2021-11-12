@@ -20,10 +20,10 @@ async function canLocalStart() {
     return rows[0].num_players > 1;
 }
 
-async function rest(username) {
+async function rest(username, restTimer) {
     await (await connection).execute('UPDATE smash_game.`character` SET is_resting = true WHERE discord_tag = ?', [username]);
-    await new Promise(r => setTimeout(r, 10*1000)); //in milliseconds
-    await (await connection).execute('UPDATE smash_game.`character` SET is_resting = false WHERE discord_tag = ?', [username]);
+    await new Promise(r => setTimeout(r, restTimer));
+    (await connection).execute('UPDATE smash_game.`character` SET is_resting = false WHERE discord_tag = ?', [username]);
 }
 
 module.exports = { 
