@@ -15,30 +15,6 @@ async function insertCharacter(character, guildId) {
     return await (await connection).execute('insert into smash_game.`fighter_proficiency`(character_id, experience, name) values(?, ?, ?)', [char_id, fighter_prof.experience, fighter_prof.name]);
 }
 
-/*
-async function addFighterProficiency(fp) {
-    await getConnection().execute('update smash_game.fighter_proficiency set experience = experience + fp where fp_id')
-}
-
-async function levelUp(remainder) {
-    // print message to player
-    // update character experience
-    await getConnection().execute('update smash_game.character set experience = remainder where character_id')
-}
-
-async function increaseStamina(stamina) {
-
-}
-
-async function getSmashLv() {
-    return;
-}
-
-async function chooseFighter() {
-    return;
-}
-*/
-
 async function canLocalStart() {
     const [rows] = await (await connection).execute('select count(*) as num_players from smash_game.character');
     return rows[0].num_players > 1;
@@ -61,13 +37,13 @@ async function checkDiscordTag(tag, guildId) {
     }
 }
 
-async function getDiscordTag(name, guildId) {
+async function getDiscordTag(name, guildId) { 
     const [rows,field] = await (await connection).execute('SELECT discord_tag FROM smash_game.character WHERE name = ? AND guild_id = ?', [name, guildId]);
     if (rows.length == 0) {
         return false;
     }
     else {
-        return rows[0];
+        return rows[0].discord_tag;
     }
 }
 

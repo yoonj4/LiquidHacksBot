@@ -11,16 +11,16 @@ module.exports = {
                 .setRequired(false)),
     async execute(interaction) {
 
+		let username = (interaction.options.data.length == 0) ? interaction.user.username : interaction.options.data[0].value;
+		
 		if (interaction.options.data.length == 0) {
             // Lookup stats for inputted user
             statReport(await db.checkDiscordTag(interaction.user.tag, interaction.guildId))
         } 
         else {
             // Lookup user's stats
-            statReport(await db.checkDiscordTag(db.getDiscordtag(interaction.options.data[0].value), interaction.guildId))
+            statReport(await db.checkDiscordTag(await db.getDiscordTag( interaction.options.data[0].value, interaction.guildId), interaction.guildId));
         }
-
-        let username = (interaction.options.data.length == 0) ? interaction.user.username : interaction.options.data[0].value;
 
         function statReport(result) {
             if (result === false) {
