@@ -15,7 +15,7 @@ module.exports = {
 			option.setName('fighter')
 				.setDescription('Enter your favorite fighter')
 				.setRequired(true)),
-	execute(interaction) {
+	async execute(interaction) {
 		let username = interaction.options.data[0].value;
 		const guildId = interaction.guildId;
 
@@ -30,12 +30,11 @@ module.exports = {
 			return interaction.reply({ content: 'Fighter doesn\'t exist', ephemeral: true });
 		}
 		// check if discord tag exists
-		let result = db.checkDiscordTag(interaction.user.tag, guildId);
-		
+		let result = await db.checkDiscordTag(interaction.user.tag, guildId);
+		console.log(result);
 		if(result === false) {
 			const character = new Character(username, false, fighter, interaction.user.tag);
-			
-			db.insertCharacter(character, guildId);
+			await db.insertCharacter(character, guildId);
 			interaction.reply({ content: `Welcome to our discord game, ${username}!`, ephemeral: true });
 		} else {
 			return interaction.reply({ content: `${username} already exists!`, ephemeral: true}); 

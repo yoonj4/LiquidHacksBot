@@ -4,7 +4,6 @@ const mysql = require('mysql2/promise');
 const match = require('../match.js');
 const Character = require('../character.js');
 
-
 module.exports = {
 	data: new SlashCommandBuilder()
 		.setName('challenge')
