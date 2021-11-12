@@ -5,7 +5,7 @@ const { token } = require('./config.json');
 // Create a new client instance
 const client = new Client({ intents: [Intents.FLAGS.GUILDS] });
 
-// Container for /challenge. Each element is sub-array = [challenge sender, challenge receiver]. 
+// Container for /challenge. Each element is sub-array = [challenge sender, challenge receiver, sender's fighter]. 
 let challenges = [];
 exports.challenges = []
 
