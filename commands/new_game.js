@@ -1,6 +1,8 @@
 const { SlashCommandBuilder } = require('@discordjs/builders');
 const Character = require('../character.js');
+const { checkDiscordTag } = require('../check_tag.js');
 const insertCharacter = require('../repository.js');
+const { ssbuRoster } = require('../resources/roster.js');
 
 module.exports = {
 	data: new SlashCommandBuilder()
@@ -14,24 +16,28 @@ module.exports = {
 			option.setName('fighter')
 				.setDescription('choose fighter')
 				.setRequired(true)),
-	async execute(interaction) {
+	execute(interaction) {
 		let username = interaction.options.data[0].value;
 		username = username.replace(/\s+/g, '');
-		let fighter = interaction.options.data[1].value.toUpperCase();
+
 		if(username.length > 20) {
-			await interaction.reply({ content: 'username is too long', ephemeral: true });
-			return;
+			interaction.reply({ content: 'username is too long', ephemeral: true });
+		} 
+		let fighter = interaction.options.data[1].value.toUpperCase();
+		// check if fighter has roster
+		if(ssbuRoster.has(fighter) === false) {
+			interaction.reply({ content: 'fighter doesn\'t exist', ephemeral: true });
 		}
-		let discord_id = interaction.user.tag
-		let roster = ['MARIO', 'DONKEY KONG', 'LINK', 'SAMUS', 'DARK SAMUS', 'YOSHI', 'KIRBY', 'FOX'];
-		
-		roster = new Set(roster);
-		if(roster.has(fighter)) {
-			const character = new Character(username, false, fighter, discord_id); 
-			insertCharacter(character);
-			await interaction.reply({ content: `Welcome to our discord game, ${username}!`, ephemeral: true });
-		} else {
-			await interaction.reply({ content: 'Fighter doesn\'t exist.', ephemeral: true });
-		}
+
+		// check if discord tag exists
+		checkDiscordTag(interaction.user.tag, (result) => {
+			if(result === false) {
+				const character = new Character(username, false, fighter, interaction.user.tag);
+				insertCharacter(character);
+				interaction.reply({ content: `Welcome to our discord game, ${username}!`, ephemeral: true });
+			} else {
+				interaction.reply({ content: `${interaction.user.tag} already exists!`, ephemeral: true}); 
+			}
+		})
 	},
 };
