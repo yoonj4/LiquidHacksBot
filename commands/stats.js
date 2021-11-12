@@ -23,8 +23,6 @@ function checkNames(datafield) {
 	});
 }
 
-checkNames('name');
-
 module.exports = {
 	data: new SlashCommandBuilder()
 		.setName('stats')

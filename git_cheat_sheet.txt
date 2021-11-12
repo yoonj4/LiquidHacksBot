@@ -18,5 +18,13 @@ git checkout <branch name>
 # Delete a branch
 git branch -D <branch name>
 
+<<<<<<< HEAD
 # Check which branch you are (and other stuff)
 git status 
+=======
+# See git log history
+git log
+
+# Check current git status
+git status
+>>>>>>> master
