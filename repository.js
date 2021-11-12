@@ -9,14 +9,14 @@ const connection = mysql.createConnection({
 });
 
 async function insertCharacter(character) {
-    const [rows] = await getConnection().execute('insert into smash_game.character(prize_money, experience, name, stamina, is_pro) values(?, ?, ?, ?, ?)', [character.prize_money, character.experience, character.name, character.stamina, character.is_pro]);
+    const [rows] = await (await getConnection()).execute('insert into smash_game.character(prize_money, experience, name, stamina, is_pro) values(?, ?, ?, ?, ?)', [character.prize_money, character.experience, character.name, character.stamina, character.is_pro]);
     const char_id = rows.insertId;
     const fighter_prof = character.fighter_pool.only();
-    connection.execute('insert into smash_game.`fighter_proficiency`(character_id, experience, name) values(?, ?, ?)', [char_id, fighter_prof.experience, fighter_prof.name]);
+    (await connection).execute('insert into smash_game.`fighter_proficiency`(character_id, experience, name) values(?, ?, ?)', [char_id, fighter_prof.experience, fighter_prof.name]);
 }
 
 async function canLocalStart() {
-    const [rows] = await getConnection().execute('select count(*) as num_players from smash_game.character');
+    const [rows] = await (await getConnection()).execute('select count(*) as num_players from smash_game.character');
     return rows[0].num_players > 1;
 }
 
