@@ -14,4 +14,8 @@ module.exports = class Character {
         this.fighter_pool = new List()
         this.fighter_pool.add(fighter_prof)
     }
+
+    calculatePlayerLv() {
+        return Math.ceil(experience / 100);
+    }
 }

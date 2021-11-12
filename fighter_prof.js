@@ -3,4 +3,8 @@ module.exports = class FighterProf {
         this.experience = experience
         this.name = name
     }
+
+    calculateFighterLv() {
+        return Math.ceil(experience / 100);
+    }
 }
