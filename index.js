@@ -43,5 +43,5 @@ client.once('ready', () => {
 client.login(token);
 
 const task = new Task('start tournament', startTournament);
-const job = new SimpleIntervalJob({ seconds: 20, }, task);
+const job = new SimpleIntervalJob({ seconds: 1, }, task);
 scheduler.addSimpleIntervalJob(job);
