@@ -29,7 +29,6 @@ module.exports = {
 		if(ssbuRoster.has(fighter) === false) {
 			return interaction.reply({ content: 'Fighter doesn\'t exist', ephemeral: true });
 		}
-
 		// check if discord tag exists
 		let result = db.checkDiscordTag(interaction.user.tag, guildId);
 		

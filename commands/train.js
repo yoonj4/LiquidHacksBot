@@ -16,17 +16,21 @@ module.exports = {
         if(character[0].stamina === 0) {
             interaction.reply({content: 'you are too tired to train', ephemeral: true});
         } else {
-            // editable to your liking my liege 
-            const stamina = 10;
-            const exp = 20; 
-            if(await repository.getFighter(interaction.options.data[0].value) === false) {
-                interaction.reply({content: `${fighter} does not exist for user: ${interaction.user.tag}`});
+             // editable to your liking my liege 
+             const stamina = 10;
+             const exp = 20; 
+
+            // you need both character id and fighter name
+            const fighter = await repository.getFighter(character[0].character_id, interaction.options.data[0].value);
+            if(fighter === undefined) {
+                interaction.reply({content: `${fighter[0].name} does not exist for user: ${character[0].discord_tag}`});
             } else {
-                const fighter = await repository.getFighter(interaction.options.data[0].value);
                 // add experience
-                
+                repository.addExperience(character[0].discord_tag, fighter[0].name, exp);
                 // decrease stamina
-                interaction.reply({content: `Stats increased!\nFighter: ${fighter[0].name}\nExperience: ${fighter[0].experience - 20} + ${exp} (${fighter[0].experience})`, ephemeral: true});
+                repository.decreaseStamina(character[0].character_id, stamina);
+                // Experience increased
+                interaction.reply({content: `Experience Increased!\nFighter: ${fighter[0].name}\nExperience: ${fighter[0].experience - exp} + ${exp} (Total: ${fighter[0].experience})`, ephemeral: true});
             }
         }
     },
