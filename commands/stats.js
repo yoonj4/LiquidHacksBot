@@ -14,23 +14,23 @@ module.exports = {
 		let username = (interaction.options.data.length == 0) ? interaction.user.username : interaction.options.data[0].value;
 		
 		if (interaction.options.data.length == 0) {
-			// Lookup stats for inputted user
-			statReport(await db.checkDiscordTag(interaction.user.username, interaction.guildId))
-		} 
-		else {
-			// Lookup user's stats
-			statReport(await db.checkDiscordTag(username, interaction.guildId))
-		}
+            // Lookup stats for inputted user
+            statReport(await db.checkDiscordTag(interaction.user.tag, interaction.guildId))
+        } 
+        else {
+            // Lookup user's stats
+            statReport(await db.checkDiscordTag(await db.getDiscordTag( interaction.options.data[0].value, interaction.guildId), interaction.guildId));
+        }
 
         function statReport(result) {
             if (result === false) {
                 if (interaction.options)
-				interaction.reply(
-					{
-						content: username + ' does not exist.',
-						ephemeral: true
-					}
-				);
+                interaction.reply(
+                    {
+                        content: username + ' does not exist.',
+                        ephemeral: true
+                    }
+                );
             } 
 			else {
                 characterObj = result;
