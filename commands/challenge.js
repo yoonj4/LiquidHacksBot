@@ -3,6 +3,10 @@ const { ssbuRoster } = require('../resources/roster.js');
 const mysql = require('mysql2/promise');
 const match = require('../match.js');
 const Character = require('../character.js');
+const db = require('../repository.js')
+
+
+let challenges = [];
 
 module.exports = {
 	data: new SlashCommandBuilder()
@@ -19,42 +23,52 @@ module.exports = {
 	async execute(interaction) {
 		
 		// find opponent's ID to direct message them through discord
-		let user = interaction.user.username
+		let user = (await db.getCharacter(interaction.user.tag))[0].name
 		let opponent = interaction.options.data[0].value;
 		const guildId = interaction.guildId
 
-		if (checkDiscordTag(opponent, guildId) == false) {
-			await interaction.reply({context: 'No player with this name in this game or server.', ephemeral: true});
+		let opponentTag = await db.getDiscordTag(opponent, guildId)
+		if (await db.checkDiscordTag(opponentTag, guildId) == false) {
+			interaction.reply({content: 'No player with this name in this game or server.', ephemeral: true});
+
 			return;
 		};
 
+		console.log(challenges);
 		// If an opposing challenge has already been issued, choose your fighter and fight. 
 		// If not, add your challenge to the list.
 		for (let i = 0; i < challenges.length; i++ ) {
-			if (challenges[i][0] == opponent && challenges[i][1] == username) {
-
-				userFighter = interaction.options.data[1].value;
-				opponentFighter = challenges[i][2];
+			console.log(challenges[i]);
+			console.log(opponent)
+			console.log(user)
+			if (challenges[i][0] == opponent && challenges[i][1] == user) {
+				console.log("entered if statement")
+				userFighter = interaction.options.data[1].value.toUpperCase();
+				opponentFighter = challenges[i][2].toUpperCase();
 				challenges.splice(i,1); // remove challenge from list
 
 				await interaction.reply(
-					{context: 	`${user} has accepted ${opponent}\'s challenge!\n
+					{content: 	`\n
+					${user} has accepted ${opponent}\'s challenge!\n
 					${user}\'s ${userFighter} is up against ${opponent}\'s ${opponentFighter}!\n`
 				});
 				
 				// TODO insert button to play ssbu announcer voiceline "ready......GO"
 				
-				let char1 = Character(getCharacter(interaction.user.tag));
-				let char2 = Character(getCharacter(getDiscordTag(opponent,guildId)));
+				let char1 = new Character(await db.getCharacter(interaction.user.tag));
+				let char2 = new Character(await db.getCharacter(opponentTag));
 				
+				console.log("before match")
 				let winner = match(char1, char2, userFighter, opponentFighter);
-				await interaction.followUp({context: `${winner.name} wins!`});
+				await interaction.followUp({content: `${winner.name} wins!`});
 				return;
 			};
 		};
 		
-		challenges.push([user, opponent]);
-		await interaction.reply( {context: `${user} has challenged ${opponent}!`});
+		challenges.push([user, opponent, interaction.options.data[1].value]);
+		console.log(user)
+		console.log(opponent)
+		await interaction.reply( { content: `${user} has challenged ${opponent}!` } );
 		return;
 	}
 };
