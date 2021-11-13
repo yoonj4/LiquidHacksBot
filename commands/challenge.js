@@ -2,7 +2,7 @@ const { SlashCommandBuilder } = require('@discordjs/builders');
 const { ssbuRoster } = require('../resources/roster.js');
 const mysql = require('mysql2/promise');
 const match = require('../match.js');
-const Character = require('../character.js');
+const {Character, fromDb} = require('../character.js');
 const db = require('../repository.js')
 
 
@@ -23,7 +23,7 @@ module.exports = {
 	async execute(interaction) {
 		
 		// find opponent's ID to direct message them through discord
-		let user = (await db.getCharacter(interaction.user.tag))[0].name
+		let user = (await db.getCharacter(interaction.user.tag))[0].character_name
 		let opponent = interaction.options.data[0].value;
 		const guildId = interaction.guildId
 
@@ -38,9 +38,6 @@ module.exports = {
 		// If an opposing challenge has already been issued, choose your fighter and fight. 
 		// If not, add your challenge to the list.
 		for (let i = 0; i < challenges.length; i++ ) {
-			console.log(challenges[i]);
-			console.log(opponent)
-			console.log(user)
 			if (challenges[i][0] == opponent && challenges[i][1] == user) {
 				console.log("entered if statement")
 				userFighter = interaction.options.data[1].value.toUpperCase();
@@ -55,11 +52,11 @@ module.exports = {
 				
 				// TODO insert button to play ssbu announcer voiceline "ready......GO"
 				
-				let char1 = new Character(await db.getCharacter(interaction.user.tag));
-				let char2 = new Character(await db.getCharacter(opponentTag));
+				let char1 = fromDb(await db.getCharacter(interaction.user.tag));
+				let char2 = fromDb(await db.getCharacter(opponentTag));
 				
 				console.log("before match")
-				let winner = match(char1, char2, userFighter, opponentFighter);
+				let winner = match(char1, char2, char1.fighter_pool.filter(f => f.name === userFighter).only(), char2.fighter_pool.filter(f => f.name === opponentFighter).only());
 				await interaction.followUp({content: `${winner.name} wins!`});
 				return;
 			};

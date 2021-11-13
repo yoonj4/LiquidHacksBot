@@ -1,5 +1,5 @@
 const { SlashCommandBuilder } = require('@discordjs/builders');
-const Character = require('../character.js');
+const { Character } = require('../character.js');
 const { ssbuRoster } = require('../resources/roster.js');
 const db = require('../repository.js');
 

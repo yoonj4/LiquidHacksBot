@@ -58,7 +58,7 @@ async function decreaseStamina(tag, stamina) {
 }
 
 async function getCharacter(tag) {
-    const [character] = await (await connection).execute(`SELECT * FROM smash_game.character WHERE smash_game.character.discord_tag =\'${tag}\'`);  
+    const [character] = await (await connection).execute(`SELECT c.character_id, c.prize_money, c.experience as character_experience, c.name as character_name, c.stamina, c.is_pro, c.is_resting, c.discord_tag, f.experience, f.name FROM smash_game.character c JOIN smash_game.fighter_proficiency f on c.character_id = f.character_id where c.discord_tag =\'${tag}\'`);  
     if(character === undefined) {
         console.log('character does not exist!');
     } else {

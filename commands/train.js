@@ -21,7 +21,7 @@ module.exports = {
              const exp = 20; 
 
             // you need both character id and fighter name
-            const fighter = await repository.getFighter(character[0].character_id, interaction.options.data[0].value);
+            let fighter = await repository.getFighter(character[0].character_id, interaction.options.data[0].value);
             if(fighter === undefined) {
                 interaction.reply({content: `${fighter[0].name} does not exist for user: ${character[0].discord_tag}`});
             } else {
@@ -30,6 +30,7 @@ module.exports = {
                 // decrease stamina
                 repository.decreaseStamina(character[0].character_id, stamina);
                 // Experience increased
+                fighter = await repository.getFighter(character[0].character_id, interaction.options.data[0].value);
                 interaction.reply({content: `Experience Increased!\nFighter: ${fighter[0].name}\nExperience: ${fighter[0].experience - exp} + ${exp} (Total: ${fighter[0].experience})`, ephemeral: true});
             }
         }
